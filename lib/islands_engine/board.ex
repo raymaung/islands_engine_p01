@@ -19,7 +19,7 @@ defmodule IslandsEngine.Board do
     end)
   end
 
-  defp all_islands_positioned?(board) do
+  def all_islands_positioned?(board) do
     Enum.all?(Island.types(), &(Map.has_key?(board, &1)))
   end
 
