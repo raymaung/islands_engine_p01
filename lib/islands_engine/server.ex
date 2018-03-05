@@ -1,4 +1,4 @@
-defmodule IslandsEngine.Game do
+defmodule IslandsEngine.Server do
   use GenServer
 
   alias IslandsEngine.{Board, Coordinate, Guesses, Island, Rules}
@@ -6,8 +6,10 @@ defmodule IslandsEngine.Game do
   @players [:player1, :player2]
 
   def start_link(name) when is_binary(name) do
-    GenServer.start_link(__MODULE__, name, [])
+    GenServer.start_link(__MODULE__, name, name: via_tuple(name))
   end
+
+  def via_tuple(name), do: {:via, Registry, {Registry.Game, name}}
 
   def init(name) do
     player1 = %{name: name, board: Board.new(), guesses: Guesses.new()}
