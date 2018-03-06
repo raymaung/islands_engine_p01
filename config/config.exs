@@ -10,7 +10,9 @@ use Mix.Config
 
 # You can configure your application as:
 #
-#     config :islands_engine, key: :value
+config :islands_engine,
+  rules: IslandsEngine.Rules
+
 #
 # and access this configuration in your application as:
 #
@@ -27,4 +29,4 @@ use Mix.Config
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-#     import_config "#{Mix.env}.exs"
+import_config "#{Mix.env}.exs"
