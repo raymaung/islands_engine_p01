@@ -1,5 +1,8 @@
 defmodule IslandsEngine.Game do
-  use GenServer
+  #
+  # RM: Required by :simple_one_for_one to have :start_link to []
+  #
+  use GenServer, start: {__MODULE__, :start_link, []}, restart: :transient
 
   alias IslandsEngine.{Board, Coordinate, Guesses, Island, Rules}
 
