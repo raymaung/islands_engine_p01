@@ -13,6 +13,7 @@ defmodule IslandsEngine.GameSupervisor do
   end
 
   def start_game(name) do
+    # See. Page 114 - on confusing explanation on how it works
     Supervisor.start_child(__MODULE__, [name])
   end
 
