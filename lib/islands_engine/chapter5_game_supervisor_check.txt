@@ -1,0 +1,25 @@
+  alias IslandsEngine.{Game, GameSupervisor}
+  {:ok, game} = GameSupervisor.start_game("Hopper")
+
+  via = Game.via_tuple("Hopper")
+  GenServer.whereis(via)
+  Game.add_player(via, "Hockney")
+  state_data = :sys.get_state(via)
+
+  state_data.player1.name
+  # "Hopper"
+
+  state_data.player2.name
+  # "Hockney"
+
+  Process.exit(game, :kaboom)
+  GenServer.whereis(via)
+
+  state_data = :sys.get_state(via)
+  state_data.player1.name
+  # "Hopper"
+
+  state_data.player2.name
+  # RM: Game is restarted
+  # nil
+

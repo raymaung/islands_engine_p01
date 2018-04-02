@@ -7,6 +7,7 @@ defmodule IslandsEngine.Game do
   alias IslandsEngine.{Board, Coordinate, Guesses, Island, Rules}
 
   @players [:player1, :player2]
+  @timeout 150000
 
   def start_link(name) when is_binary(name) do
     GenServer.start_link(__MODULE__, name, name: via_tuple(name))
@@ -23,7 +24,8 @@ defmodule IslandsEngine.Game do
         player1: player1,
         player2: player2,
         rules: %Rules{}
-      }
+      },
+      @timeout
     }
   end
 
@@ -103,6 +105,10 @@ defmodule IslandsEngine.Game do
       end
   end
 
+  def handle_info(:timeout, state_data) do
+    {:stop, {:shutdown, :timeout}, state_data}
+  end
+
   defp update_board(state_data, player, board) do
     Map.update!(state_data, player, fn player -> %{player | board: board} end)
   end
@@ -120,7 +126,7 @@ defmodule IslandsEngine.Game do
   end
 
   defp reply_success(state_data, reply) do
-    {:reply, reply, state_data}
+    {:reply, reply, state_data, @timeout}
   end
 
   def set_islands(game, player) when player in @players do
